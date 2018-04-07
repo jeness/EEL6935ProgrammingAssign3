@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 #https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/
 import csv
 import numpy as np
@@ -58,8 +60,14 @@ with open('train.csv','rb') as traincsvFile:
     # # round predictions
     # rounded = [round(x[0]) for x in predictions]
     # print(rounded)
-    # # X= dataset[:,0:8]
-
+    # 4. 评估模型
+    loss, accuracy = model.evaluate(np.array(X), np.array(Y))
+    print("\nLoss: %.2f, Accuracy: %.2f%%" % (loss, accuracy * 100))
+    # 5. 数据预测
+    probabilities = model.predict(np.array(X))
+    predictions111 = [float(round(x)) for x in probabilities]
+    accuracy = numpy.mean(predictions111 == Y)
+    print("Prediction Accuracy: %.2f%%" % (accuracy * 100))
     #----------------begin test predictions
     with open('test.csv', 'rb') as testcsvFile:
         lines = csv.reader(testcsvFile)
@@ -91,5 +99,11 @@ with open('train.csv','rb') as traincsvFile:
         rounded = [int(round(x[0])) for x in predictions]
         print(rounded)
         # ------------------output test predictions to csv
-
+        idofdna = [x[0] for x in testlistACGT]
         outputlist = np.c_[np.array(testlistACGT),np.array(rounded)]
+        firstrowtest = ['id', 'prediction']
+        # numpy.savetxt('outputtest.csv', outputlist, delimiter = ',',fmt="%f,%f,%f")
+        with open("outputtest.csv", "wb") as f:
+            writer = csv.writer(f)
+            writer.writerow(firstrowtest)
+            writer.writerows(outputlist)
