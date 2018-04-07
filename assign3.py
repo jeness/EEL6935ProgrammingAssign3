@@ -68,7 +68,7 @@ with open('train.csv','rb') as traincsvFile:
 
         firstrow = testlist[0]
         del testlist[0]  # delete first row of train.csv
-
+        testlistACGT = testlist
         # trainlistrow = [x[1] for x in trainlist]
         translatetable = maketrans('ACGT', '1234')
         print testlist
@@ -88,6 +88,8 @@ with open('train.csv','rb') as traincsvFile:
         # calculate predictions
         predictions = model.predict(np.array(XForTest))
         # round predictions
-        rounded = [round(x[0]) for x in predictions]
+        rounded = [int(round(x[0])) for x in predictions]
         print(rounded)
         # ------------------output test predictions to csv
+
+        outputlist = np.c_[np.array(testlistACGT),np.array(rounded)]
