@@ -59,7 +59,7 @@ Yinput = np.array(Y)
 
 # create model
 model = Sequential()
-model.add(Dense(14, input_dim=14, init='glorot_uniform', activation='relu'))
+model.add(Dense(14, input_dim=14, init='glorot_uniform', activation='sigmoid'))
 # model.add(Dropout(0.3))
 model.add(Dense(14, init='glorot_uniform', activation='relu'))
 # model.add(Dropout(0.3))
@@ -70,7 +70,7 @@ model.add(Dense(1, init='uniform', activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Fit the model
-model.fit(Xinput, Yinput, epochs=2000, batch_size=10, verbose=2)
+model.fit(Xinput, Yinput, epochs=1000, batch_size=10, verbose=2)
 # calculate predictions
 # predictions = model.predict(np.array(X))
 # # round predictions

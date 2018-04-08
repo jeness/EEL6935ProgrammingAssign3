@@ -75,24 +75,33 @@ model = Sequential()
 # model.fit(Xinput, Yinput, epochs=600, batch_size=10, verbose=2)
 
 
-model.add(LSTM(150,input_shape=(14,1),return_sequences=True))
-model.add(Dropout(0.2))
-model.add(LSTM(200,return_sequences=True))
-model.add(Dropout(0.2))
+# model.add(LSTM(150,input_shape=(14,1),return_sequences=True))
+# model.add(Dropout(0.2))
+# model.add(LSTM(200,return_sequences=True))
+# model.add(Dropout(0.2))
+#
+# model.add(LSTM(150,return_sequences=True))
+# model.add(Dropout(0.2))
+#
+# model.add(Dense(28000, init='uniform', activation='sigmoid'))
 
-model.add(LSTM(150,return_sequences=True))
-model.add(Dropout(0.2))
+model.add(Dense(64, input_dim=14, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(64, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(1, activation='sigmoid'))
 
-model.add(Dense(28000, init='uniform', activation='sigmoid'))
+model.compile(loss='binary_crossentropy',
+              optimizer='rmsprop',
+              metrics=['accuracy'])
 
+model.fit(Xinput,Yinput,
+          epochs=20,
+          batch_size=128)
 
-start = time.time()
-model.compile(loss='mse', optimizer='rmsprop')
-print('compilation time : ', time.time() - start)
-
-n_hours = 1
-n_features=14
-model.fit(np.reshape(Xinput, n_hours,n_features),Yinput,batch_size=100,nb_epoch=10,verbose=1,validation_split=0.05)
+# n_hours = 1
+# n_features=14
+# model.fit(np.reshape(Xinput, n_hours,n_features),Yinput,batch_size=100,nb_epoch=10,verbose=1,validation_split=0.05)
 # model.fit(Xinput,Yinput,batch_size=100,nb_epoch=10,verbose=1,validation_split=0.05)
 
 
