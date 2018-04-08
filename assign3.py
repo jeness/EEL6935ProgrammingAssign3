@@ -48,13 +48,16 @@ with open('train.csv','rb') as traincsvFile:
 
     # create model
     model = Sequential()
-    model.add(Dense(12, input_dim=14, init='uniform', activation='relu'))
-    model.add(Dense(8, init='uniform', activation='relu'))
+
+    model.add(Dense(14, input_dim=14, init='glorot_uniform', activation='relu'))
+    # model.add(Dropout(0.01))
+    model.add(Dense(14, init='glorot_uniform', activation='relu'))
+    # model.add(Dropout(0.01))
     model.add(Dense(1, init='uniform', activation='sigmoid'))
     # Compile model
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     # Fit the model
-    model.fit(np.array(X), np.array(Y), epochs=300, batch_size=10, verbose=2)
+    model.fit(np.array(X), np.array(Y), epochs=700, batch_size=10, verbose=2)
     # calculate predictions
     # predictions = model.predict(np.array(X))
     # # round predictions
@@ -100,7 +103,7 @@ with open('train.csv','rb') as traincsvFile:
         print(rounded)
         # ------------------output test predictions to csv
         idofdna = [x[0] for x in testlistACGT]
-        outputlist = np.c_[np.array(testlistACGT),np.array(rounded)]
+        outputlist = np.c_[np.array(idofdna),np.array(rounded)]
         firstrowtest = ['id', 'prediction']
         # numpy.savetxt('outputtest.csv', outputlist, delimiter = ',',fmt="%f,%f,%f")
         with open("outputtest.csv", "wb") as f:
