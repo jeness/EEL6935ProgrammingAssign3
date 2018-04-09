@@ -85,10 +85,12 @@ model = Sequential()
 #
 # model.add(Dense(28000, init='uniform', activation='sigmoid'))
 
-model.add(Dense(64, input_dim=14, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(64, activation='relu'))
-model.add(Dropout(0.5))
+model.add(Dense(14, input_dim=14,init='glorot_uniform', activation='relu'))
+# model.add(Dropout(0.5))
+model.add(Dense(14, init='glorot_uniform',activation='relu'))
+model.add(Dense(14, init='glorot_uniform',activation='relu'))
+model.add(Dense(14, init='glorot_uniform',activation='relu'))
+# model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 
 model.compile(loss='binary_crossentropy',
@@ -96,8 +98,8 @@ model.compile(loss='binary_crossentropy',
               metrics=['accuracy'])
 
 model.fit(Xinput,Yinput,
-          epochs=20,
-          batch_size=128)
+          epochs=2000,
+          batch_size=10,verbose=2)
 
 # n_hours = 1
 # n_features=14

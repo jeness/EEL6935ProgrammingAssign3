@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-#https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/
 import csv
 import numpy as np
 from string import maketrans
 import string
+from keras.utils import plot_model
+import pydot
+import graphviz
 trainlist=[]
 testlist=[]
 X = []
@@ -39,9 +41,8 @@ with open('train.csv','rb') as traincsvFile:
     print X
 #-----------------------------------begin train model
     from keras.models import Sequential
-    from keras.layers import Dense
     import numpy
-
+    from keras.layers import Dense, Dropout, Activation, Conv1D, MaxPooling1D, Flatten, Embedding, GRU
     # fix random seed for reproducibility
     seed = 7
     numpy.random.seed(seed)
@@ -54,6 +55,7 @@ with open('train.csv','rb') as traincsvFile:
     model.add(Dense(14, init='glorot_uniform', activation='relu'))
     # model.add(Dropout(0.01))
     model.add(Dense(1, init='uniform', activation='sigmoid'))
+
     # Compile model
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     # Fit the model
@@ -63,10 +65,12 @@ with open('train.csv','rb') as traincsvFile:
     # # round predictions
     # rounded = [round(x[0]) for x in predictions]
     # print(rounded)
-    # 4. 评估模型
+    # plot_model(model, to_file='model.png')
+
+    # 4. evaluate
     loss, accuracy = model.evaluate(np.array(X), np.array(Y))
     print("\nLoss: %.2f, Accuracy: %.2f%%" % (loss, accuracy * 100))
-    # 5. 数据预测
+    # 5. predict
     probabilities = model.predict(np.array(X))
     predictions111 = [float(round(x)) for x in probabilities]
     accuracy = numpy.mean(predictions111 == Y)
